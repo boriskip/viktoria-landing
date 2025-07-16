@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 
@@ -45,10 +46,13 @@ function WorkSlider({ work, onImageClick }: { work: typeof works[0]; onImageClic
                         className="keen-slider__slide flex items-center justify-center"
                         onClick={() => onImageClick(imgIdx)}
                     >
-                        <img
+                        <Image
                             src={img}
                             alt={work.title}
+                            width={176}
+                            height={176}
                             className="object-cover w-44 h-44 rounded shadow"
+                            loading="lazy"
                         />
                     </div>
                 ))}
@@ -104,7 +108,14 @@ function Modal({ images, startIdx, title, onClose }: { images: string[]; startId
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
             <div className="relative max-w-2xl w-full flex flex-col items-center">
                 <button onClick={onClose} className="absolute top-2 right-2 text-white text-2xl">×</button>
-                <img src={images[idx]} alt={title} className="max-h-[70vh] rounded shadow mb-4" />
+                <Image
+                    src={images[idx]}
+                    alt={title}
+                    width={600}
+                    height={600}
+                    className="max-h-[70vh] rounded shadow mb-4"
+                    loading="eager"
+                />
                 <div className="flex gap-6 items-center">
                     <button onClick={prev} className="text-white text-3xl">&#8592;</button>
                     <span className="text-white">{idx + 1} / {images.length}</span>
