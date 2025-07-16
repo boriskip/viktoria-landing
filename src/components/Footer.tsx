@@ -1,4 +1,5 @@
 import { FaInstagram, FaFacebook } from "react-icons/fa";
+import { FiPhone } from "react-icons/fi";
 
 export default function Footer() {
     return (
@@ -13,11 +14,14 @@ export default function Footer() {
                     <a href="#blog" className="hover:underline text-gray-700">Blog</a>
                     <a href="#kontakt" className="hover:underline text-gray-700">Kontakt</a>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-4 items-center">
+                    <a href="tel:+4915732219511" className="flex items-center gap-1 text-blue-600 hover:text-blue-800">
+                        <FiPhone size={20} /> +49 1573 2219511
+                    </a>
                     <a href="#" className="text-blue-600 hover:text-blue-800"><FaInstagram size={20} /></a>
                     <a href="#" className="text-blue-600 hover:text-blue-800"><FaFacebook size={20} /></a>
                 </div>
             </div>
         </footer>
     );
-} 
+}
