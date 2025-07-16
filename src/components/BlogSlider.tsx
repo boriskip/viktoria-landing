@@ -6,30 +6,58 @@ import { useKeenSlider } from "keen-slider/react";
 
 const works = [
     {
-        title: "Arbeit: Dunkelblond (Sattes Naturblond)",
-        description: "Das Ziel war ein natürlich wirkendes, sattes Dunkelblond mit sanften, sonnengeküssten Reflexen. Die Farbe sollte Tiefe am Ansatz haben und zu den Längen hin weich und heller verlaufen, um einen multidimensionalen und lebendigen Look zu kreieren, der wie von der Sonne aufgehellt aussieht.",
+        title: "Arbeit 1",
+        description: "Farbveränderung in Duisburg: Dunkelblond mit natürlichen Reflexen. Verwendete Farben: Wella Koleston Perfect 7/1 + 7/0, 6% Oxidant. Technik: Balayage.",
         images: [
             "/blog-slider/work-1/work1-1.jpg",
             "/blog-slider/work-1/work1.jpg",
         ],
     },
     {
-        title: "Arbeit: Getöntes Blond (Rosé- / Erdbeerblond)",
-        description: "Ein modisches Statement-Blond mit einem deutlichen Rosé-Schimmer. Die Basis ist ein helles, sauberes Blond, das mit einem pastelligen Erdbeer-Ton veredelt wurde. Das Ergebnis ist ein eleganter und zugleich trendiger Look mit einem Hauch von Farbe, der im Licht wunderschön schimmert.",
+        title: "Arbeit 2",
+        description: "Kühles Blond in Duisburg: L'Oréal Majirel 10.1 + 9.13, 9% Oxidant. Technik: Foilyage für ein natürliches, multidimensionales Ergebnis.",
         images: [
             "/blog-slider/work-2/work2-2.jpg",
             "/blog-slider/work-2/work2.jpg",
         ],
     },
     {
-        title: "Arbeit: Helles Platinblond (Kühles Eisblond)",
-        description: "Ein extrem helles, klares und kühles Platinblond ohne unerwünschten Gelbstich. Der Look ist inspiriert vom skandinavischen Stil – clean, leuchtend und eisig. Das Ergebnis ist ein beeindruckendes, fast weißes Blond mit einem Hauch von Silber.",
+        title: "Arbeit 3",
+        description: "Helles Blond in Duisburg: Schwarzkopf Blondme + 6% Oxidant. Technik: Klassische Blondierung mit sanftem Übergang.",
         images: [
             "/blog-slider/work-3/work3-3.jpg",
             "/blog-slider/work-3/work3.jpg",
         ],
     },
 ];
+
+function WorkSlider({ work, onImageClick }: { work: typeof works[0]; onImageClick: (imgIdx: number) => void }) {
+    const [sliderRef] = useKeenSlider<HTMLDivElement>({
+        slides: { perView: 1, spacing: 8 },
+        loop: true,
+    });
+    return (
+        <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
+            <div ref={sliderRef} className="keen-slider w-48 h-48 mb-4 cursor-pointer">
+                {work.images.map((img, imgIdx) => (
+                    <div
+                        key={imgIdx}
+                        className="keen-slider__slide flex items-center justify-center"
+                        onClick={() => onImageClick(imgIdx)}
+                    >
+                        <img
+                            src={img}
+                            alt={work.title}
+                            className="object-cover w-44 h-44 rounded shadow"
+                        />
+                    </div>
+                ))}
+            </div>
+            <p className="text-md font-medium">{work.title}</p>
+            <p className="text-sm text-gray-500">{work.description}</p>
+        </div>
+    );
+}
 
 export default function BlogSlider() {
     const [modal, setModal] = useState<{ workIdx: number; imgIdx: number } | null>(null);
@@ -38,33 +66,13 @@ export default function BlogSlider() {
         <section id="blog" className="w-full bg-gray-50 py-12 px-4">
             <h2 className="text-3xl font-semibold mb-8 text-center">Meine Arbeiten</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                {works.map((work, workIdx) => {
-                    const [sliderRef] = useKeenSlider<HTMLDivElement>({
-                        slides: { perView: 1, spacing: 8 },
-                        loop: true,
-                    });
-                    return (
-                        <div key={workIdx} className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
-                            <div ref={sliderRef} className="keen-slider w-48 h-48 mb-4 cursor-pointer">
-                                {work.images.map((img, imgIdx) => (
-                                    <div
-                                        key={imgIdx}
-                                        className="keen-slider__slide flex items-center justify-center"
-                                        onClick={() => setModal({ workIdx, imgIdx })}
-                                    >
-                                        <img
-                                            src={img}
-                                            alt={work.title}
-                                            className="object-cover w-44 h-44 rounded shadow"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                            <p className="text-md font-medium">{work.title}</p>
-                            <p className="text-sm text-gray-500">{work.description}</p>
-                        </div>
-                    );
-                })}
+                {works.map((work, workIdx) => (
+                    <WorkSlider
+                        key={workIdx}
+                        work={work}
+                        onImageClick={(imgIdx) => setModal({ workIdx, imgIdx })}
+                    />
+                ))}
             </div>
             {/* Modal */}
             {modal && (
